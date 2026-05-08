@@ -1,0 +1,58 @@
+import { faBus, faCarSide, faStar, faTruckMonster, faVanShuttle } from '@fortawesome/free-solid-svg-icons'
+
+export const fleets = [
+  {
+    icon: faCarSide,
+    name: 'Avanza / Mobilio',
+    desc: 'Pilihan hemat untuk keluarga kecil, shuttle, dan perjalanan dalam kota.',
+    capacity: '4 sampai 6 penumpang',
+    url: '/sewa-avanza-malang/',
+    image: '/armada/avanza.webp',
+    imageAlt: 'Sewa Avanza Malang Gunz Travel',
+  },
+  {
+    icon: faCarSide,
+    name: 'Innova Reborn',
+    desc: 'Nyaman untuk keluarga, tamu kantor, perjalanan luar kota, dan airport transfer.',
+    capacity: '5 sampai 7 penumpang',
+    url: '/sewa-innova-reborn-malang/',
+    image: '/armada/innova-reborn.webp',
+    imageAlt: 'Sewa Innova Reborn Malang Gunz Travel',
+  },
+  {
+    icon: faStar,
+    name: 'Alphard / Vellfire',
+    desc: 'Unit premium untuk tamu VIP, wedding, bisnis, dan acara khusus.',
+    capacity: '4 sampai 6 penumpang',
+    url: '/sewa-alphard-vellfire-malang/',
+    image: '/armada/alphard.webp',
+    imageAlt: 'Sewa Alphard Vellfire Malang Gunz Travel',
+  },
+  {
+    icon: faTruckMonster,
+    name: 'Pajero / Fortuner VRZ',
+    desc: 'SUV untuk perjalanan jauh, medan wisata, dan kebutuhan eksekutif.',
+    capacity: '5 sampai 7 penumpang',
+    url: '/sewa-pajero-fortuner-malang/',
+    image: '/armada/pajero-fortuner.webp',
+    imageAlt: 'Sewa Pajero Fortuner Malang Gunz Travel',
+  },
+  {
+    icon: faVanShuttle,
+    name: 'Hiace Commuter / Premio',
+    desc: 'Cocok untuk rombongan keluarga, kantor, wisata Bromo, Batu, Bali, dan Jogja.',
+    capacity: '10 sampai 14 penumpang',
+    url: '/sewa-hiace-malang/',
+    image: '/armada/hiace.webp',
+    imageAlt: 'Sewa Hiace Malang Gunz Travel',
+  },
+  {
+    icon: faBus,
+    name: 'Elf Long 18 Seat / 14 Seat',
+    desc: 'Pilihan rombongan besar untuk ziarah, study tour, outing, dan wisata luar kota.',
+    capacity: '14 sampai 18 penumpang',
+    url: '/sewa-elf-malang/',
+    image: '/armada/elf.webp',
+    imageAlt: 'Sewa Elf Long Malang Gunz Travel',
+  },
+]
