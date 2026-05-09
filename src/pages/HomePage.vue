@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
 import {
   faCarSide,
   faCity,
@@ -144,6 +144,27 @@ const faqs = [
   { q: 'Apakah tersedia armada rombongan?', a: 'Ya. Tersedia Hiace Commuter, Hiace Premio, dan Elf Long 14 sampai 18 seat.' },
   { q: 'Bagaimana cara booking?', a: 'Customer cukup menghubungi admin melalui WhatsApp dan mengirim data perjalanan.' },
 ]
+
+/* ── SEO: FAQ JSON-LD ── */
+onMounted(() => {
+  const el = document.createElement('script')
+  el.id = 'ld-faq-home'
+  el.type = 'application/ld+json'
+  el.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  })
+  document.head.appendChild(el)
+})
+
+onUnmounted(() => {
+  document.getElementById('ld-faq-home')?.remove()
+})
 </script>
 
 <template>

@@ -1,5 +1,6 @@
 <script setup>
 import { reactive } from 'vue'
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 
 const emit = defineEmits(['submit'])
 
@@ -91,9 +92,10 @@ function submit() {
           </label>
 
           <button
-            class="cta-glow h-12 rounded-2xl bg-brand-500 px-6 py-3 text-sm font-extrabold text-ink-900 transition hover:bg-ink-900 hover:text-white md:col-span-2 lg:col-span-4"
+            class="cta-glow self-end flex h-12 items-center justify-center gap-2 rounded-2xl bg-brand-500 px-6 py-3 text-sm font-extrabold text-ink-900 transition hover:bg-ink-900 hover:text-white md:col-span-2 lg:col-span-4"
             type="submit"
           >
+            <font-awesome-icon :icon="faWhatsapp" class="text-lg" />
             Cek via WA
           </button>
         </form>

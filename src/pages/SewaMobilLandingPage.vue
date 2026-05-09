@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { faBolt, faCarSide, faCircleCheck, faClock, faHeadset, faShieldHalved } from '@fortawesome/free-solid-svg-icons'
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import FleetSection from '../sections/FleetSection.vue'
 import QuickBookingSection from '../sections/QuickBookingSection.vue'
 import { fleets } from '../data/fleets'
@@ -89,8 +90,9 @@ const faqs = [
               :href="waHref"
               target="_blank"
               rel="noopener"
-              class="cta-glow inline-flex items-center justify-center rounded-full bg-brand-500 px-7 py-4 text-base font-extrabold text-ink-900 transition hover:bg-ink-900 hover:text-white"
+              class="cta-glow inline-flex items-center justify-center gap-2 rounded-full bg-brand-500 px-7 py-4 text-base font-extrabold text-ink-900 transition hover:bg-ink-900 hover:text-white"
             >
+              <font-awesome-icon :icon="faWhatsapp" class="text-xl" />
               Konsultasi & booking via WhatsApp
             </a>
             <a
@@ -227,8 +229,9 @@ const faqs = [
             :href="waHref"
             target="_blank"
             rel="noopener"
-            class="inline-flex justify-center rounded-full bg-ink-900 px-8 py-4 text-sm font-black text-white transition hover:bg-white hover:text-ink-900"
+            class="inline-flex items-center justify-center gap-2 rounded-full bg-ink-900 px-8 py-4 text-sm font-black text-white transition hover:bg-white hover:text-ink-900"
           >
+            <font-awesome-icon :icon="faWhatsapp" class="text-xl" />
             Chat WhatsApp Sekarang
           </a>
         </div>

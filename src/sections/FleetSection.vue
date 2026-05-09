@@ -1,7 +1,9 @@
 <script setup>
-import { ref } from 'vue'
+import { reactive } from 'vue'
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
-const brokenImages = ref({})
+const brokenImages = reactive({})
+const slideIndex = reactive({})
 
 defineProps({
   fleets: {
@@ -9,6 +11,18 @@ defineProps({
     required: true,
   },
 })
+
+function getIndex(carName, total) {
+  return ((slideIndex[carName] || 0) % total + total) % total
+}
+
+function prev(carName, total) {
+  slideIndex[carName] = getIndex(carName, total) - 1
+}
+
+function next(carName, total) {
+  slideIndex[carName] = getIndex(carName, total) + 1
+}
 </script>
 
 <template>
@@ -37,21 +51,59 @@ defineProps({
           class="group relative overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-brand-200 hover:shadow-soft"
         >
           <div class="absolute -right-16 -top-16 h-52 w-52 rounded-full bg-brand-100/50 blur-2xl"></div>
+
+          <!-- Image carousel card -->
           <div class="relative border-b border-slate-100">
-            <div v-if="car.image && !brokenImages[car.name]" class="relative h-44 overflow-hidden bg-slate-100">
+            <div
+              v-if="car.images && car.images.length && !brokenImages[car.name]"
+              class="relative h-48 overflow-hidden bg-slate-100"
+            >
               <img
-                :src="car.image"
-                :alt="car.imageAlt || car.name"
+                :src="car.images[getIndex(car.name, car.images.length)]?.src"
+                :alt="car.images[getIndex(car.name, car.images.length)]?.alt || car.name"
                 class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 loading="lazy"
                 decoding="async"
                 @error="brokenImages[car.name] = true"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-slate-950/10 to-transparent"></div>
+
+              <!-- Carousel arrows -->
+              <template v-if="car.images.length > 1">
+                <button
+                  type="button"
+                  class="absolute left-2 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow-md backdrop-blur transition hover:bg-white hover:text-brand-700"
+                  aria-label="Foto sebelumnya"
+                  @click.prevent="prev(car.name, car.images.length)"
+                >
+                  <font-awesome-icon :icon="faChevronLeft" class="text-xs" />
+                </button>
+                <button
+                  type="button"
+                  class="absolute right-2 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow-md backdrop-blur transition hover:bg-white hover:text-brand-700"
+                  aria-label="Foto berikutnya"
+                  @click.prevent="next(car.name, car.images.length)"
+                >
+                  <font-awesome-icon :icon="faChevronRight" class="text-xs" />
+                </button>
+
+                <!-- Dots indicator -->
+                <div class="absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2 gap-1.5">
+                  <span
+                    v-for="(img, i) in car.images"
+                    :key="i"
+                    class="h-1.5 rounded-full transition-all duration-300"
+                    :class="i === getIndex(car.name, car.images.length) ? 'w-4 bg-white' : 'w-1.5 bg-white/50'"
+                  ></span>
+                </div>
+              </template>
+
               <div class="absolute left-5 top-5 inline-flex rounded-full bg-white/85 px-3 py-1 text-xs font-extrabold text-slate-900 backdrop-blur">
                 {{ car.capacity }}
               </div>
             </div>
+
+            <!-- Fallback when no images -->
             <div v-else class="flex items-center justify-between gap-3 bg-gradient-to-br from-slate-50 via-white to-brand-50 p-6">
               <div>
                 <p class="text-xs font-extrabold uppercase tracking-wide text-slate-500">Rekomendasi</p>
@@ -63,8 +115,9 @@ defineProps({
               </div>
             </div>
           </div>
+
           <div class="relative p-6">
-            <p class="text-lg font-black text-slate-950" v-if="car.image">{{ car.name }}</p>
+            <p class="text-lg font-black text-slate-950" v-if="car.images && car.images.length">{{ car.name }}</p>
             <p class="text-sm leading-7 text-slate-600">{{ car.desc }}</p>
             <div class="mt-5 flex flex-wrap items-center gap-2">
               <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-extrabold text-slate-700">Dengan driver</span>
@@ -76,7 +129,7 @@ defineProps({
             >
               Lihat detail & pesan
             </router-link>
-            <p v-if="!car.image || brokenImages[car.name]" class="mt-3 text-center text-xs font-semibold text-slate-500">
+            <p v-if="!car.images || !car.images.length || brokenImages[car.name]" class="mt-3 text-center text-xs font-semibold text-slate-500">
               Foto armada bisa ditambahkan di sini agar lebih meyakinkan.
             </p>
           </div>

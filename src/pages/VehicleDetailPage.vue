@@ -1,18 +1,50 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { faBus, faCarSide, faCircleCheck, faClock, faHeadset, faShieldHalved, faStar, faTruckMonster, faVanShuttle } from '@fortawesome/free-solid-svg-icons'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
+import {
+  faBus,
+  faCarSide,
+  faChevronLeft,
+  faChevronRight,
+  faCircleCheck,
+  faClock,
+  faHeadset,
+  faShieldHalved,
+  faStar,
+  faTruckMonster,
+  faVanShuttle,
+} from '@fortawesome/free-solid-svg-icons'
 
 const props = defineProps({
   title: { type: String, required: true },
   subtitle: { type: String, required: true },
   capacity: { type: String, required: true },
   highlights: { type: Array, required: true },
-  heroImage: { type: String, default: '' },
+  images: { type: Array, default: () => [] },
   fallbackIcon: { type: String, default: 'car' },
 })
 
 const phone = '6281805093192'
-const heroImageOk = ref(true)
+const carouselIdx = ref(0)
+const brokenImages = ref({})
+let autoplayTimer = null
+
+function startAutoplay() {
+  stopAutoplay()
+  if (props.images.length > 1) {
+    autoplayTimer = setInterval(() => {
+      carouselIdx.value++
+    }, 5000)
+  }
+}
+
+function stopAutoplay() {
+  if (autoplayTimer) {
+    clearInterval(autoplayTimer)
+    autoplayTimer = null
+  }
+}
 
 const waHref = computed(() => {
   const text = `Halo Gunz Travel, saya ingin tanya ${props.title}.`
@@ -48,7 +80,21 @@ const pricing = computed(() => [
   },
 ])
 
-const showHeroImage = computed(() => Boolean(props.heroImage) && heroImageOk.value)
+const hasImages = computed(() => props.images.length > 0 && !props.images.every((_, i) => brokenImages.value[i]))
+const currentSlide = computed(() => {
+  const total = props.images.length
+  if (!total) return 0
+  return ((carouselIdx.value % total) + total) % total
+})
+
+function prevSlide() {
+  carouselIdx.value--
+  startAutoplay()
+}
+function nextSlide() {
+  carouselIdx.value++
+  startAutoplay()
+}
 
 const faqs = computed(() => [
   {
@@ -68,6 +114,51 @@ const faqs = computed(() => [
     a: 'Bisa. Rute luar kota menyesuaikan durasi, rute, dan kebutuhan armada.',
   },
 ])
+
+/* ── SEO: JSON-LD structured data ── */
+const route = useRoute()
+
+function setJsonLd(id, data) {
+  let el = document.getElementById(id)
+  if (!el) {
+    el = document.createElement('script')
+    el.id = id
+    el.type = 'application/ld+json'
+    document.head.appendChild(el)
+  }
+  el.textContent = JSON.stringify(data)
+}
+
+onMounted(() => {
+  startAutoplay()
+
+  const baseUrl = 'https://gunztravel.com'
+
+  setJsonLd('ld-breadcrumb-vehicle', {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl + '/' },
+      { '@type': 'ListItem', position: 2, name: props.title, item: baseUrl + route.path },
+    ],
+  })
+
+  setJsonLd('ld-faq-vehicle', {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.value.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  })
+})
+
+onUnmounted(() => {
+  stopAutoplay()
+  document.getElementById('ld-breadcrumb-vehicle')?.remove()
+  document.getElementById('ld-faq-vehicle')?.remove()
+})
 </script>
 
 <template>
@@ -152,29 +243,63 @@ const faqs = computed(() => [
           </div>
         </div>
 
-        <div class="relative">
-          <div class="absolute -right-12 -top-10 h-56 w-56 rounded-full bg-brand-100 blur-3xl"></div>
-          <div class="absolute -bottom-10 -left-10 h-52 w-52 rounded-full bg-amber-100 blur-3xl"></div>
-          <div class="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-4 shadow-soft">
-            <div class="overflow-hidden rounded-[1.5rem] bg-slate-50">
+        <div class="relative flex items-center justify-center">
+          <!-- Carousel images -->
+          <template v-if="hasImages">
+            <div class="relative w-full max-w-lg">
               <img
-                v-if="showHeroImage"
-                :src="heroImage"
-                :alt="title"
-                class="h-[440px] w-full object-cover"
+                :key="currentSlide"
+                :src="images[currentSlide]?.src"
+                :alt="images[currentSlide]?.alt || `${title} - Gunz Travel Malang`"
+                class="mx-auto h-auto max-h-[400px] w-full object-contain transition-opacity duration-500"
                 loading="eager"
                 decoding="async"
-                @error="heroImageOk = false"
+                @error="brokenImages[currentSlide] = true"
               />
-              <div v-else class="flex h-[440px] items-center justify-center bg-gradient-to-br from-white via-brand-50 to-amber-50">
-                <div class="text-center">
-                  <div class="mx-auto inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-white text-3xl text-brand-700 ring-1 ring-slate-200">
-                    <font-awesome-icon :icon="fallbackFaIcon" />
-                  </div>
-                  <p class="mt-3 text-sm font-extrabold text-slate-700">Foto unit segera ditambahkan</p>
-                  <p class="mt-1 text-xs font-semibold text-slate-500">Tanya admin untuk foto terbaru</p>
+
+              <!-- Carousel arrows -->
+              <template v-if="images.length > 1">
+                <button
+                  type="button"
+                  class="absolute left-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-slate-600 shadow-md backdrop-blur transition hover:bg-white hover:text-brand-700"
+                  aria-label="Foto sebelumnya"
+                  @click="prevSlide"
+                >
+                  <font-awesome-icon :icon="faChevronLeft" class="text-sm" />
+                </button>
+                <button
+                  type="button"
+                  class="absolute right-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-slate-600 shadow-md backdrop-blur transition hover:bg-white hover:text-brand-700"
+                  aria-label="Foto berikutnya"
+                  @click="nextSlide"
+                >
+                  <font-awesome-icon :icon="faChevronRight" class="text-sm" />
+                </button>
+
+                <!-- Dots indicator -->
+                <div class="mt-4 flex items-center justify-center gap-2">
+                  <button
+                    v-for="(img, i) in images"
+                    :key="i"
+                    type="button"
+                    class="h-2 rounded-full transition-all duration-300"
+                    :class="i === currentSlide ? 'w-6 bg-brand-500' : 'w-2 bg-slate-300 hover:bg-slate-400'"
+                    :aria-label="`Lihat foto ${i + 1}`"
+                    @click="carouselIdx = i; startAutoplay()"
+                  ></button>
                 </div>
+              </template>
+            </div>
+          </template>
+
+          <!-- Fallback -->
+          <div v-else class="flex h-[340px] w-full items-center justify-center">
+            <div class="text-center">
+              <div class="mx-auto inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-white text-3xl text-brand-700 ring-1 ring-slate-200">
+                <font-awesome-icon :icon="fallbackFaIcon" />
               </div>
+              <p class="mt-3 text-sm font-extrabold text-slate-700">Foto unit segera ditambahkan</p>
+              <p class="mt-1 text-xs font-semibold text-slate-500">Tanya admin untuk foto terbaru</p>
             </div>
           </div>
         </div>
@@ -276,8 +401,9 @@ const faqs = computed(() => [
             :href="waHref"
             target="_blank"
             rel="noopener"
-            class="inline-flex justify-center rounded-full bg-ink-900 px-8 py-4 text-sm font-black text-white transition hover:bg-white hover:text-ink-900"
+            class="inline-flex items-center justify-center gap-2 rounded-full bg-ink-900 px-8 py-4 text-sm font-black text-white transition hover:bg-white hover:text-ink-900"
           >
+            <font-awesome-icon :icon="faWhatsapp" class="text-xl" />
             Chat WhatsApp Sekarang
           </a>
         </div>

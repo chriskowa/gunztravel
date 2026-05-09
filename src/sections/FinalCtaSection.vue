@@ -1,4 +1,5 @@
 <script setup>
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 defineProps({
   waHref: {
     type: String,
@@ -21,8 +22,9 @@ defineProps({
           :href="waHref"
           target="_blank"
           rel="noopener"
-          class="inline-flex justify-center rounded-full bg-ink-900 px-8 py-4 text-sm font-black text-white transition hover:bg-white hover:text-ink-900"
+          class="inline-flex items-center justify-center gap-2 rounded-full bg-ink-900 px-8 py-4 text-sm font-black text-white transition hover:bg-white hover:text-ink-900"
         >
+          <font-awesome-icon :icon="faWhatsapp" class="text-xl" />
           Chat WhatsApp Sekarang
         </a>
       </div>

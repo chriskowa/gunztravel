@@ -1,5 +1,7 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onUnmounted, ref, watchEffect } from 'vue'
+import { useRoute } from 'vue-router'
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import {
   faBolt,
   faBus,
@@ -69,6 +71,74 @@ const faqs = computed(() => [
     a: 'Klik tombol WhatsApp, kirim tanggal, jam, titik jemput, tujuan, dan jumlah penumpang. Admin akan konfirmasi ketersediaan & harga.',
   },
 ])
+
+/* ── SEO: JSON-LD structured data ── */
+const route = useRoute()
+
+function setJsonLd(id, data) {
+  let el = document.getElementById(id)
+  if (!el) {
+    el = document.createElement('script')
+    el.id = id
+    el.type = 'application/ld+json'
+    document.head.appendChild(el)
+  }
+  el.textContent = JSON.stringify(data)
+}
+
+function removeJsonLd(id) {
+  document.getElementById(id)?.remove()
+}
+
+watchEffect(() => {
+  const baseUrl = 'https://gunztravel.com'
+
+  setJsonLd('ld-service', {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: props.title,
+    name: props.title,
+    description: props.subtitle,
+    provider: { '@type': 'TravelAgency', name: 'Gunz Travel' },
+    areaServed: [...props.pickupAreas, ...props.dropAreas],
+    offers: {
+      '@type': 'Offer',
+      price: '150000',
+      priceCurrency: 'IDR',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: '150000',
+        priceCurrency: 'IDR',
+        unitText: 'orang',
+      },
+    },
+  })
+
+  setJsonLd('ld-faq', {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.value.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  })
+
+  setJsonLd('ld-breadcrumb', {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl + '/' },
+      { '@type': 'ListItem', position: 2, name: props.title, item: baseUrl + route.path },
+    ],
+  })
+})
+
+onUnmounted(() => {
+  removeJsonLd('ld-service')
+  removeJsonLd('ld-faq')
+  removeJsonLd('ld-breadcrumb')
+})
 </script>
 
 <template>
@@ -161,8 +231,10 @@ const faqs = computed(() => [
               <img
                 v-if="showHeroImage"
                 :src="heroImage"
-                :alt="title"
+                :alt="`Armada ${title} - Gunz Travel Malang`"
                 class="h-[440px] w-full object-cover"
+                width="640"
+                height="440"
                 loading="eager"
                 decoding="async"
                 @error="heroImageOk = false"
@@ -279,8 +351,9 @@ const faqs = computed(() => [
             :href="waHref"
             target="_blank"
             rel="noopener"
-            class="inline-flex justify-center rounded-full bg-ink-900 px-8 py-4 text-sm font-black text-white transition hover:bg-white hover:text-ink-900"
+            class="inline-flex items-center justify-center gap-2 rounded-full bg-ink-900 px-8 py-4 text-sm font-black text-white transition hover:bg-white hover:text-ink-900"
           >
+            <font-awesome-icon :icon="faWhatsapp" class="text-xl" />
             Chat WhatsApp Sekarang
           </a>
         </div>

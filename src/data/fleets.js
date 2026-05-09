@@ -7,8 +7,10 @@ export const fleets = [
     desc: 'Pilihan hemat untuk keluarga kecil, shuttle, dan perjalanan dalam kota.',
     capacity: '4 sampai 6 penumpang',
     url: '/sewa-avanza-malang/',
-    image: '/armada/avanza.webp',
-    imageAlt: 'Sewa Avanza Malang Gunz Travel',
+    images: [
+      { src: '/avanza.webp', alt: 'Sewa Avanza Malang Gunz Travel' },
+      { src: '/mobilio.webp', alt: 'Sewa Mobilio Malang Gunz Travel' },
+    ],
   },
   {
     icon: faCarSide,
@@ -16,8 +18,9 @@ export const fleets = [
     desc: 'Nyaman untuk keluarga, tamu kantor, perjalanan luar kota, dan airport transfer.',
     capacity: '5 sampai 7 penumpang',
     url: '/sewa-innova-reborn-malang/',
-    image: '/armada/innova-reborn.webp',
-    imageAlt: 'Sewa Innova Reborn Malang Gunz Travel',
+    images: [
+      { src: '/innova.webp', alt: 'Sewa Innova Reborn Malang Gunz Travel' },
+    ],
   },
   {
     icon: faStar,
@@ -25,8 +28,9 @@ export const fleets = [
     desc: 'Unit premium untuk tamu VIP, wedding, bisnis, dan acara khusus.',
     capacity: '4 sampai 6 penumpang',
     url: '/sewa-alphard-vellfire-malang/',
-    image: '/armada/alphard.webp',
-    imageAlt: 'Sewa Alphard Vellfire Malang Gunz Travel',
+    images: [
+      { src: '/vellfire.webp', alt: 'Sewa Vellfire Malang Gunz Travel' },
+    ],
   },
   {
     icon: faTruckMonster,
@@ -34,8 +38,10 @@ export const fleets = [
     desc: 'SUV untuk perjalanan jauh, medan wisata, dan kebutuhan eksekutif.',
     capacity: '5 sampai 7 penumpang',
     url: '/sewa-pajero-fortuner-malang/',
-    image: '/armada/pajero-fortuner.webp',
-    imageAlt: 'Sewa Pajero Fortuner Malang Gunz Travel',
+    images: [
+      { src: '/pajero.webp', alt: 'Sewa Pajero Malang Gunz Travel' },
+      { src: '/fortuner.webp', alt: 'Sewa Fortuner Malang Gunz Travel' },
+    ],
   },
   {
     icon: faVanShuttle,
@@ -43,8 +49,10 @@ export const fleets = [
     desc: 'Cocok untuk rombongan keluarga, kantor, wisata Bromo, Batu, Bali, dan Jogja.',
     capacity: '10 sampai 14 penumpang',
     url: '/sewa-hiace-malang/',
-    image: '/armada/hiace.webp',
-    imageAlt: 'Sewa Hiace Malang Gunz Travel',
+    images: [
+      { src: '/hiace-commuter.webp', alt: 'Sewa Hiace Commuter Malang Gunz Travel' },
+      { src: '/hiace-premio.webp', alt: 'Sewa Hiace Premio Malang Gunz Travel' },
+    ],
   },
   {
     icon: faBus,
@@ -52,7 +60,9 @@ export const fleets = [
     desc: 'Pilihan rombongan besar untuk ziarah, study tour, outing, dan wisata luar kota.',
     capacity: '14 sampai 18 penumpang',
     url: '/sewa-elf-malang/',
-    image: '/armada/elf.webp',
-    imageAlt: 'Sewa Elf Long Malang Gunz Travel',
+    images: [
+      { src: '/elf-18-seat.webp', alt: 'Sewa Elf Long 18 Seat Malang Gunz Travel' },
+      { src: '/elf-14-seat.webp', alt: 'Sewa Elf 14 Seat Malang Gunz Travel' },
+    ],
   },
 ]

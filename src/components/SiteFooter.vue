@@ -53,6 +53,8 @@ const waHref = computed(() => {
           <p class="font-black text-slate-950">Halaman</p>
           <div class="mt-4 grid gap-2 text-sm text-slate-600">
             <a href="/travel-malang-juanda/">Travel Malang Juanda</a>
+            <a href="/travel-malang-surabaya/">Travel Malang Surabaya</a>
+            <a href="/travel-juanda-malang/">Travel Juanda Malang</a>
             <a href="/sewa-mobil-malang/">Sewa Mobil Malang</a>
             <a href="/sewa-hiace-malang/">Sewa Hiace Malang</a>
             <a href="/paket-wisata-bromo/">Paket Wisata Bromo</a>
