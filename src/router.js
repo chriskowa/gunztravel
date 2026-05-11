@@ -206,7 +206,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition
@@ -221,7 +221,7 @@ router.afterEach((to) => {
   const rawTitle = typeof to.meta?.title === 'string' ? to.meta.title.trim() : ''
   const fullTitle = rawTitle ? `${rawTitle} | ${siteName}` : siteName
   const desc = typeof to.meta?.description === 'string' ? to.meta.description.trim() : ''
-  const ogImage = to.meta?.ogImage || '/logo%20gunz%20travel.webp'
+  const ogImage = to.meta?.ogImage || '/logo-gunz-travel.webp'
 
   document.title = fullTitle
 

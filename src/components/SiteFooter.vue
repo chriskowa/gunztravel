@@ -20,7 +20,7 @@ const waHref = computed(() => {
               class="logo-mark-shadow flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl bg-white ring-2 ring-brand-300"
             >
               <img
-                src="/logo%20gunz%20travel.webp"
+                :src="$asset('logo-gunz-travel.webp')"
                 alt="Logo Gunz Travel"
                 class="h-full w-full object-contain p-1"
                 width="40"
@@ -52,12 +52,12 @@ const waHref = computed(() => {
         <div>
           <p class="font-black text-slate-950">Halaman</p>
           <div class="mt-4 grid gap-2 text-sm text-slate-600">
-            <a href="/travel-malang-juanda/">Travel Malang Juanda</a>
-            <a href="/travel-malang-surabaya/">Travel Malang Surabaya</a>
-            <a href="/travel-juanda-malang/">Travel Juanda Malang</a>
-            <a href="/sewa-mobil-malang/">Sewa Mobil Malang</a>
-            <a href="/sewa-hiace-malang/">Sewa Hiace Malang</a>
-            <a href="/paket-wisata-bromo/">Paket Wisata Bromo</a>
+            <a :href="$asset('travel-malang-juanda/')">Travel Malang Juanda</a>
+            <a :href="$asset('travel-malang-surabaya/')">Travel Malang Surabaya</a>
+            <a :href="$asset('travel-juanda-malang/')">Travel Juanda Malang</a>
+            <a :href="$asset('sewa-mobil-malang/')">Sewa Mobil Malang</a>
+            <a :href="$asset('sewa-hiace-malang/')">Sewa Hiace Malang</a>
+            <a :href="$asset('paket-wisata-bromo/')">Paket Wisata Bromo</a>
           </div>
         </div>
       </div>

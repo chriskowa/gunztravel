@@ -249,7 +249,7 @@ onUnmounted(() => {
             <div class="relative w-full max-w-lg">
               <img
                 :key="currentSlide"
-                :src="images[currentSlide]?.src"
+                :src="images[currentSlide]?.src ? $asset(images[currentSlide].src) : ''"
                 :alt="images[currentSlide]?.alt || `${title} - Gunz Travel Malang`"
                 class="mx-auto h-auto max-h-[400px] w-full object-contain transition-opacity duration-500"
                 loading="eager"

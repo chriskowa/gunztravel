@@ -230,7 +230,7 @@ onUnmounted(() => {
             <div class="overflow-hidden rounded-[1.5rem] bg-slate-50">
               <img
                 v-if="showHeroImage"
-                :src="heroImage"
+                :src="$asset(heroImage)"
                 :alt="`Armada ${title} - Gunz Travel Malang`"
                 class="h-[440px] w-full object-cover"
                 width="640"

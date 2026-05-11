@@ -18,10 +18,10 @@ defineProps({
         </div>
       </div>
       <div class="mt-10 grid gap-5 md:grid-cols-3">
-        <a
+        <router-link
           v-for="tour in tours"
           :key="tour.title"
-          :href="tour.url"
+          :to="tour.url"
           class="group rounded-[1.75rem] border border-slate-200 bg-slate-50 p-6 transition hover:-translate-y-1 hover:border-brand-200 hover:bg-white hover:shadow-soft"
         >
           <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-xl text-brand-700 shadow-sm">
@@ -30,7 +30,7 @@ defineProps({
           <h3 class="text-xl font-black text-slate-950">{{ tour.title }}</h3>
           <p class="mt-3 text-sm leading-6 text-slate-600">{{ tour.desc }}</p>
           <p class="mt-6 text-sm font-extrabold text-brand-700 transition group-hover:translate-x-0.5">Lihat paket →</p>
-        </a>
+        </router-link>
       </div>
     </div>
   </section>

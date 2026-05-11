@@ -76,7 +76,7 @@ onUnmounted(() => {
         :class="{ 'opacity-100': currentSlide === index, 'opacity-0': currentSlide !== index }"
       >
         <img
-          :src="slide.image"
+          :src="$asset(slide.image)"
           :alt="slide.alt"
           class="h-full w-full object-cover"
         />

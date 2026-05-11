@@ -36,12 +36,12 @@ function next(carName, total) {
           </h2>
           <p class="mt-4 text-base leading-7 text-slate-600">Pilih unit sesuai jumlah penumpang. Semua dengan driver.</p>
         </div>
-        <a
-          href="/sewa-mobil-malang/"
+        <router-link
+          to="/sewa-mobil-malang/"
           class="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-extrabold text-white shadow-sm transition hover:bg-brand-600"
         >
           Lihat semua armada
-        </a>
+        </router-link>
       </div>
 
       <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -59,7 +59,7 @@ function next(carName, total) {
               class="relative h-48 overflow-hidden bg-slate-100"
             >
               <img
-                :src="car.images[getIndex(car.name, car.images.length)]?.src"
+                :src="$asset(car.images[getIndex(car.name, car.images.length)]?.src)"
                 :alt="car.images[getIndex(car.name, car.images.length)]?.alt || car.name"
                 class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 loading="lazy"

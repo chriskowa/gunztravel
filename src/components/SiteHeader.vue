@@ -48,7 +48,7 @@ onBeforeUnmount(() => {
           <router-link to="/" class="flex items-center gap-3" aria-label="Gunz Travel beranda" @click="closeMobileMenu">
             <div class="logo-mark-shadow flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl bg-white ring-2 ring-brand-300 shadow-sm">
               <img
-                src="/logo%20gunz%20travel.webp"
+                :src="$asset('logo-gunz-travel.webp')"
                 alt="Logo Gunz Travel"
                 class="h-full w-full object-contain p-1"
                 width="44"
@@ -72,7 +72,7 @@ onBeforeUnmount(() => {
             >
               {{ link.label }}
             </router-link>
-            <a class="rounded-full px-4 py-2 transition hover:bg-brand-50 hover:text-brand-800" href="/blog/">Blog</a>
+            <a class="rounded-full px-4 py-2 transition hover:bg-brand-50 hover:text-brand-800" :href="$asset('artikel')">Blog</a>
           </div>
 
           <div class="flex items-center gap-2">
@@ -113,7 +113,7 @@ onBeforeUnmount(() => {
           <div class="flex items-center gap-3">
             <div class="logo-mark-shadow flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl bg-white ring-2 ring-brand-300">
               <img
-                src="/logo%20gunz%20travel.webp"
+                :src="$asset('logo-gunz-travel.webp')"
                 alt="Logo Gunz Travel"
                 class="h-full w-full object-contain p-1"
                 width="40"
@@ -150,7 +150,7 @@ onBeforeUnmount(() => {
             >
               {{ link.label }}
             </router-link>
-            <a href="/blog/" class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3" @click="closeMobileMenu">Blog</a>
+            <a :href="$asset('artikel')" class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3" @click="closeMobileMenu">Blog</a>
           </div>
 
           <div class="mt-5 rounded-3xl border border-slate-200 bg-white p-4">

@@ -44,7 +44,7 @@ onBeforeUnmount(() => {
       <div
         ref="bgEl"
         class="absolute inset-0 bg-slate-900 bg-cover bg-center will-change-transform"
-        style="background-image: url('/bromo.webp')"
+        :style="{ backgroundImage: `url('${$asset('bromo.webp')}')` }"
       ></div>
       <div class="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/45 to-slate-950/80"></div>
       <div class="absolute inset-0 bg-gradient-to-r from-brand-700/20 via-transparent to-amber-400/15"></div>

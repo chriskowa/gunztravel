@@ -21,10 +21,10 @@ defineProps({
       </div>
 
       <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-        <a
+        <router-link
           v-for="service in services"
           :key="service.title"
-          :href="service.url"
+          :to="service.url"
           class="group relative overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-brand-200 hover:shadow-soft"
         >
           <div class="absolute -right-12 -top-12 h-24 w-24 rounded-full bg-brand-100/60 blur-2xl"></div>
@@ -37,7 +37,7 @@ defineProps({
             Lihat detail
             <font-awesome-icon class="transition group-hover:translate-x-0.5" :icon="faArrowRight" />
           </div>
-        </a>
+        </router-link>
       </div>
     </div>
   </section>
