@@ -35,19 +35,19 @@ defineProps({
         </div>
 
         <div class="overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm">
-          <div class="grid grid-cols-3 bg-gradient-to-r from-slate-50 via-white to-brand-50 px-5 py-4 text-sm font-black text-slate-700">
-            <p>Layanan</p>
-            <p>Mulai dari</p>
-            <p>Cocok untuk</p>
+          <div class="grid min-w-0 grid-cols-3 bg-gradient-to-r from-slate-50 via-white to-brand-50 px-5 py-4 text-sm font-black text-slate-700">
+            <p class="min-w-0 break-words">Layanan</p>
+            <p class="min-w-0 break-words">Mulai dari</p>
+            <p class="min-w-0 break-words">Cocok untuk</p>
           </div>
           <div
             v-for="price in prices"
             :key="price.name"
-            class="grid grid-cols-3 gap-2 border-t border-slate-100 px-5 py-4 text-sm transition hover:bg-slate-50"
+            class="grid min-w-0 grid-cols-3 gap-2 border-t border-slate-100 px-5 py-4 text-sm transition hover:bg-slate-50"
           >
-            <p class="font-bold text-slate-950">{{ price.name }}</p>
-            <p class="font-extrabold text-brand-700">{{ price.price }}</p>
-            <p class="text-slate-600">{{ price.best }}</p>
+            <p class="min-w-0 break-words font-bold text-slate-950">{{ price.name }}</p>
+            <p class="min-w-0 break-words font-extrabold text-brand-700">{{ price.price }}</p>
+            <p class="min-w-0 break-words text-slate-600">{{ price.best }}</p>
           </div>
         </div>
       </div>
