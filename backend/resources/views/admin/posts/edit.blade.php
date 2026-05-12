@@ -32,7 +32,12 @@
                         @method('PUT')
 
                         <div>
-                            <x-input-label for="title" value="Judul" />
+                            <div class="flex items-center justify-between gap-3">
+                                <x-input-label for="title" value="Judul" />
+                                <button type="button" class="ai-btn" data-ai-field="title" aria-label="Generate judul">
+                                    <span class="ai-btn__icon" aria-hidden="true">✦</span>
+                                </button>
+                            </div>
                             <x-text-input id="title" name="title" type="text" class="mt-1 block w-full" :value="old('title', $post->title)" required />
                             <x-input-error class="mt-2" :messages="$errors->get('title')" />
                         </div>
@@ -44,13 +49,23 @@
                         </div>
 
                         <div>
-                            <x-input-label for="excerpt" value="Excerpt (opsional)" />
+                            <div class="flex items-center justify-between gap-3">
+                                <x-input-label for="excerpt" value="Excerpt (opsional)" />
+                                <button type="button" class="ai-btn" data-ai-field="excerpt" aria-label="Generate excerpt">
+                                    <span class="ai-btn__icon" aria-hidden="true">✦</span>
+                                </button>
+                            </div>
                             <textarea id="excerpt" name="excerpt" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" rows="3">{{ old('excerpt', $post->excerpt) }}</textarea>
                             <x-input-error class="mt-2" :messages="$errors->get('excerpt')" />
                         </div>
 
                         <div>
-                            <x-input-label for="content" value="Konten" />
+                            <div class="flex items-center justify-between gap-3">
+                                <x-input-label for="content" value="Konten" />
+                                <button type="button" class="ai-btn" data-ai-field="content" aria-label="Generate konten">
+                                    <span class="ai-btn__icon" aria-hidden="true">✦</span>
+                                </button>
+                            </div>
                             <textarea id="content" name="content" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" rows="14">{{ old('content', $post->content) }}</textarea>
                             <x-input-error class="mt-2" :messages="$errors->get('content')" />
                             <div class="mt-3 flex flex-wrap items-center gap-3">
@@ -128,7 +143,12 @@
                         <div class="rounded-lg border border-gray-200 p-4">
                             <div class="grid gap-4 sm:grid-cols-2">
                                 <div>
-                                    <x-input-label for="meta_title" value="Meta title (opsional)" />
+                                    <div class="flex items-center justify-between gap-3">
+                                        <x-input-label for="meta_title" value="Meta title (opsional)" />
+                                        <button type="button" class="ai-btn" data-ai-field="meta_title" aria-label="Generate meta title">
+                                            <span class="ai-btn__icon" aria-hidden="true">✦</span>
+                                        </button>
+                                    </div>
                                     <x-text-input id="meta_title" name="meta_title" type="text" class="mt-1 block w-full" :value="old('meta_title', $post->meta_title)" />
                                     <x-input-error class="mt-2" :messages="$errors->get('meta_title')" />
                                 </div>
@@ -140,7 +160,12 @@
                             </div>
 
                             <div class="mt-4">
-                                <x-input-label for="meta_description" value="Meta description (opsional)" />
+                                <div class="flex items-center justify-between gap-3">
+                                    <x-input-label for="meta_description" value="Meta description (opsional)" />
+                                    <button type="button" class="ai-btn" data-ai-field="meta_description" aria-label="Generate meta description">
+                                        <span class="ai-btn__icon" aria-hidden="true">✦</span>
+                                    </button>
+                                </div>
                                 <textarea id="meta_description" name="meta_description" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" rows="3">{{ old('meta_description', $post->meta_description) }}</textarea>
                                 <x-input-error class="mt-2" :messages="$errors->get('meta_description')" />
                             </div>
@@ -188,12 +213,40 @@
         .ck-editor__editable {
             min-height: 520px;
         }
+
+        .ai-btn {
+            display: inline-flex;
+            height: 34px;
+            width: 34px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            border: 1px solid rgb(229 231 235);
+            background: white;
+            color: rgb(17 24 39);
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+        }
+
+        .ai-btn:hover {
+            background: rgb(249 250 251);
+        }
+
+        .ai-btn[disabled] {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .ai-btn__icon {
+            font-weight: 900;
+            color: rgb(232 121 0);
+        }
     </style>
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
     <script>
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         const uploadUrl = '{{ route('admin.media.ckeditor') }}'
         const mediaJsonUrl = '{{ route('admin.media.json') }}'
+        const aiGenerateUrl = '{{ route('admin.ai.generate') }}'
 
         class CkUploadAdapter {
             constructor(loader) {
@@ -348,6 +401,90 @@
         closeMediaBtn.addEventListener('click', closeModal)
         modalBackdrop.addEventListener('click', closeModal)
         mediaSearch.addEventListener('input', filterMedia)
+
+        function setAiLoading(btn, loading) {
+            if (!btn) return
+            btn.disabled = loading
+            btn.dataset.loading = loading ? '1' : ''
+        }
+
+        function getTopic() {
+            const titleEl = document.querySelector('#title')
+            return (titleEl?.value || '').trim()
+        }
+
+        function getFieldValue(field) {
+            if (field === 'content') {
+                return editorInstance ? editorInstance.getData() : (document.querySelector('#content')?.value || '')
+            }
+
+            const el = document.querySelector(`#${field}`)
+            return (el?.value || '').trim()
+        }
+
+        function setFieldValue(field, value) {
+            if (field === 'content') {
+                if (editorInstance) {
+                    editorInstance.setData(value)
+                } else {
+                    const el = document.querySelector('#content')
+                    if (el) el.value = value
+                }
+                return
+            }
+
+            const el = document.querySelector(`#${field}`)
+            if (el) el.value = value
+        }
+
+        async function generateField(field, btn) {
+            const topic = getTopic()
+            if (!topic) {
+                alert('Isi Judul dulu untuk menentukan topik.')
+                return
+            }
+
+            setAiLoading(btn, true)
+
+            try {
+                const res = await fetch(aiGenerateUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                    },
+                    body: JSON.stringify({
+                        topic,
+                        field,
+                        current: getFieldValue(field),
+                    }),
+                })
+
+                const data = await res.json().catch(() => ({}))
+                if (!res.ok) {
+                    throw new Error(data?.message || 'AI gagal')
+                }
+
+                if (typeof data?.text !== 'string') {
+                    throw new Error('Response AI tidak valid')
+                }
+
+                setFieldValue(field, data.text)
+            } catch (e) {
+                alert(e?.message || 'AI gagal')
+            } finally {
+                setAiLoading(btn, false)
+            }
+        }
+
+        document.querySelectorAll('button.ai-btn[data-ai-field]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const field = btn.getAttribute('data-ai-field')
+                if (!field || btn.dataset.loading === '1') return
+                generateField(field, btn)
+            })
+        })
 
         ClassicEditor
             .create(textarea, {

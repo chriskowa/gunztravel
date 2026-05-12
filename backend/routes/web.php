@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AiController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MediaController;
@@ -33,6 +34,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::post('media/ckeditor', [MediaController::class, 'ckeditor'])->name('media.ckeditor');
     Route::get('media/json', [MediaController::class, 'json'])->name('media.json');
     Route::delete('media/{mediaItem}', [MediaController::class, 'destroy'])->name('media.destroy');
+
+    Route::post('ai/generate', [AiController::class, 'generate'])->middleware('throttle:20,1')->name('ai.generate');
 });
 
 Route::middleware('auth')->group(function () {
