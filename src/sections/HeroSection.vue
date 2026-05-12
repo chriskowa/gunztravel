@@ -13,17 +13,17 @@ const slides = [
   {
     id: 1,
     image: '/images/hero/malang-city.jpg',
-    alt: 'Malang City View'
+    alt: 'Travel Malang Juanda - Pemandangan Kota Malang Gunz Travel'
   },
   {
     id: 2,
     image: '/images/hero/bromo-mountain.png',
-    alt: 'Bromo Mountain'
+    alt: 'Sewa Mobil Malang untuk Wisata Bromo - Gunz Travel'
   },
   {
     id: 3,
     image: '/images/hero/juanda-airport.jpg',
-    alt: 'Juanda Airport'
+    alt: 'Travel Malang Juanda 24 Jam - Antar Jemput Bandara Juanda Surabaya'
   }
 ]
 
@@ -108,7 +108,8 @@ onUnmounted(() => {
         </h1>
 
         <p class="mt-5 max-w-2xl text-base leading-8 text-white/90 sm:text-lg drop-shadow">
-          Jemput–antar lebih nyaman untuk bandara, dinas, keluarga, dan rombongan. Chat admin untuk cek jadwal & harga paling akurat.
+          Layanan <strong>travel Malang Juanda 24 jam</strong>, <strong>travel Malang Surabaya</strong>, dan <strong>sewa mobil Malang</strong> dengan driver berpengalaman.
+          Jemput–antar door to door untuk bandara, dinas, keluarga, dan rombongan. Chat admin untuk cek jadwal &amp; harga.
         </p>
 
         <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">

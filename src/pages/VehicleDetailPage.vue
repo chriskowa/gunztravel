@@ -98,22 +98,36 @@ function nextSlide() {
 
 const faqs = computed(() => [
   {
-    q: 'Apakah harga sudah termasuk driver?',
-    a: 'Ya. Paket sudah termasuk driver. Untuk detail biaya (bbm, tol, parkir, overtime) akan dijelaskan admin sesuai rute.',
+    q: `Apakah harga ${props.title} sudah termasuk driver?`,
+    a: `Ya. Paket ${props.title} sudah termasuk driver. Untuk detail biaya (bbm, tol, parkir, overtime) akan dijelaskan admin sesuai rute perjalanan Anda.`,
   },
   {
-    q: 'Bisa jemput di rumah atau hotel?',
-    a: 'Bisa. Titik jemput bisa di rumah, hotel, stasiun, bandara, atau lokasi lain sesuai kesepakatan.',
+    q: `Bisa jemput di rumah atau hotel untuk ${props.title}?`,
+    a: `Bisa. Layanan ${props.title} menyediakan penjemputan di rumah, hotel, stasiun, bandara Juanda, atau lokasi lain di Malang dan Batu sesuai kesepakatan.`,
   },
   {
-    q: 'Bagaimana cara booking?',
-    a: 'Klik tombol WhatsApp, kirim tanggal, jam, titik jemput, tujuan, dan jumlah penumpang. Admin akan konfirmasi ketersediaan & harga.',
+    q: `Bagaimana cara booking ${props.title}?`,
+    a: `Klik tombol WhatsApp di halaman ini, kirim tanggal, jam, titik jemput, tujuan, dan jumlah penumpang. Admin akan konfirmasi ketersediaan unit dan harga ${props.title}.`,
   },
   {
-    q: 'Apakah bisa untuk luar kota?',
-    a: 'Bisa. Rute luar kota menyesuaikan durasi, rute, dan kebutuhan armada.',
+    q: `Apakah ${props.title} bisa untuk luar kota?`,
+    a: `Bisa. ${props.title} melayani rute luar kota seperti Malang-Surabaya, Malang-Bromo, Malang-Bali, Malang-Jogja, dan tujuan lainnya.`,
+  },
+  {
+    q: `Apakah ${props.title} tersedia untuk antar jemput bandara?`,
+    a: `Ya. ${props.title} bisa digunakan untuk antar jemput Bandara Juanda Surabaya. Hubungi admin untuk informasi harga dan jadwal.`,
   },
 ])
+
+/* SEO description content */
+const seoSlug = computed(() => route.path.replace(/\//g, '').replace(/-malang$/, ''))
+const seoKeyword = computed(() => props.title)
+const seoDescription = computed(() => {
+  return `Mencari layanan ${seoKeyword.value} yang terpercaya? Gunz Travel menyediakan ${seoKeyword.value} dengan driver profesional dan berpengalaman. Unit terawat, bersih, dan nyaman untuk berbagai kebutuhan perjalanan Anda di Malang, Batu, Surabaya, Bandara Juanda, dan rute luar kota lainnya.`
+})
+const seoDescription2 = computed(() => {
+  return `Layanan ${seoKeyword.value} dari Gunz Travel cocok untuk perjalanan dinas, keluarga, wisata, airport transfer Malang-Juanda, dan kebutuhan khusus lainnya. Booking mudah via WhatsApp, cukup kirim tanggal, jam, titik jemput, tujuan, dan jumlah penumpang.`
+})
 
 /* ── SEO: JSON-LD structured data ── */
 const route = useRoute()
@@ -139,7 +153,8 @@ onMounted(() => {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl + '/' },
-      { '@type': 'ListItem', position: 2, name: props.title, item: baseUrl + route.path },
+      { '@type': 'ListItem', position: 2, name: 'Sewa Mobil Malang', item: baseUrl + '/sewa-mobil-malang/' },
+      { '@type': 'ListItem', position: 3, name: props.title, item: baseUrl + route.path },
     ],
   })
 
@@ -152,12 +167,38 @@ onMounted(() => {
       acceptedAnswer: { '@type': 'Answer', text: f.a },
     })),
   })
+
+  setJsonLd('ld-product-vehicle', {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: props.title,
+    description: route.meta?.description || props.subtitle,
+    image: props.images.length ? baseUrl + props.images[0].src : baseUrl + '/logo-gunz-travel.webp',
+    brand: { '@type': 'Brand', name: 'Gunz Travel' },
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'IDR',
+      availability: 'https://schema.org/InStock',
+      seller: {
+        '@type': 'TravelAgency',
+        name: 'Gunz Travel',
+        url: baseUrl,
+        telephone: '+6281805093192',
+      },
+    },
+    additionalProperty: [
+      { '@type': 'PropertyValue', name: 'Kapasitas', value: props.capacity },
+      { '@type': 'PropertyValue', name: 'Driver', value: 'Termasuk' },
+      { '@type': 'PropertyValue', name: 'Area Layanan', value: 'Malang, Batu, Surabaya, Bandara Juanda' },
+    ],
+  })
 })
 
 onUnmounted(() => {
   stopAutoplay()
   document.getElementById('ld-breadcrumb-vehicle')?.remove()
   document.getElementById('ld-faq-vehicle')?.remove()
+  document.getElementById('ld-product-vehicle')?.remove()
 })
 </script>
 
@@ -303,6 +344,30 @@ onUnmounted(() => {
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- SEO Content Section -->
+    <section class="px-4 py-12 lg:px-6 lg:py-20">
+      <div class="mx-auto max-w-4xl">
+        <article class="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm lg:p-12">
+          <h2 class="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
+            {{ title }} – Rental dengan Driver Profesional
+          </h2>
+          <div class="mt-6 space-y-4 text-sm leading-7 text-slate-600">
+            <p>{{ seoDescription }}</p>
+            <p>{{ seoDescription2 }}</p>
+            <p>
+              Kapasitas <strong>{{ capacity }}</strong> menjadikan unit ini pilihan ideal untuk berbagai skenario perjalanan.
+              Semua paket <strong>{{ title }}</strong> sudah termasuk driver, sehingga Anda tinggal duduk nyaman selama perjalanan.
+            </p>
+          </div>
+          <div class="mt-6 flex flex-wrap gap-2">
+            <router-link to="/" class="rounded-full bg-brand-50 px-4 py-2 text-xs font-extrabold text-brand-800 transition hover:bg-brand-100">Travel Malang Juanda</router-link>
+            <router-link to="/travel-malang-surabaya/" class="rounded-full bg-brand-50 px-4 py-2 text-xs font-extrabold text-brand-800 transition hover:bg-brand-100">Travel Malang Surabaya</router-link>
+            <router-link to="/sewa-mobil-malang/" class="rounded-full bg-slate-100 px-4 py-2 text-xs font-extrabold text-slate-700 transition hover:bg-slate-200">Sewa Mobil Malang</router-link>
+          </div>
+        </article>
       </div>
     </section>
 

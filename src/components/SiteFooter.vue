@@ -35,8 +35,8 @@ const waHref = computed(() => {
             </div>
           </div>
           <p class="mt-5 max-w-md text-sm leading-7 text-slate-600">
-            Melayani travel Malang Juanda, travel Malang Surabaya, sewa mobil Malang, Hiace, Elf, shuttle bandara, perjalanan
-            dinas, wisata religi, Bromo, Bali, Jogja, dan city tour Malang Batu.
+            Melayani <strong>travel Malang Juanda 24 jam</strong>, <strong>travel Malang Surabaya</strong>, sewa mobil Malang dengan driver,
+            Hiace, Elf, shuttle bandara, perjalanan dinas, wisata religi, Bromo, Bali, Jogja, dan city tour Malang Batu.
           </p>
         </div>
 
@@ -47,18 +47,27 @@ const waHref = computed(() => {
             <a :href="waHref" target="_blank" rel="noopener">WhatsApp Admin</a>
             <p>Jl. Cokroaminoto No.43, Klojen, Kota Malang</p>
           </div>
+
+          <p class="mt-6 font-black text-slate-950">Sewa Kendaraan</p>
+          <nav class="mt-4 grid gap-2 text-sm text-slate-600">
+            <router-link to="/sewa-avanza-malang/">Sewa Avanza Malang</router-link>
+            <router-link to="/sewa-innova-reborn-malang/">Sewa Innova Malang</router-link>
+            <router-link to="/sewa-alphard-vellfire-malang/">Sewa Alphard Malang</router-link>
+            <router-link to="/sewa-pajero-fortuner-malang/">Sewa Pajero Malang</router-link>
+            <router-link to="/sewa-hiace-malang/">Sewa Hiace Malang</router-link>
+            <router-link to="/sewa-elf-malang/">Sewa Elf Malang</router-link>
+          </nav>
         </div>
 
         <div>
-          <p class="font-black text-slate-950">Halaman</p>
-          <div class="mt-4 grid gap-2 text-sm text-slate-600">
-            <a :href="$asset('travel-malang-juanda/')">Travel Malang Juanda</a>
-            <a :href="$asset('travel-malang-surabaya/')">Travel Malang Surabaya</a>
-            <a :href="$asset('travel-juanda-malang/')">Travel Juanda Malang</a>
-            <a :href="$asset('sewa-mobil-malang/')">Sewa Mobil Malang</a>
-            <a :href="$asset('sewa-hiace-malang/')">Sewa Hiace Malang</a>
-            <a :href="$asset('paket-wisata-bromo/')">Paket Wisata Bromo</a>
-          </div>
+          <p class="font-black text-slate-950">Layanan Travel</p>
+          <nav class="mt-4 grid gap-2 text-sm text-slate-600">
+            <router-link to="/travel-malang-juanda/">Travel Malang Juanda</router-link>
+            <router-link to="/travel-malang-surabaya/">Travel Malang Surabaya</router-link>
+            <router-link to="/travel-juanda-malang/">Travel Juanda Malang</router-link>
+            <router-link to="/travel-batu-juanda/">Travel Batu Juanda</router-link>
+            <router-link to="/sewa-mobil-malang/">Sewa Mobil Malang</router-link>
+          </nav>
         </div>
       </div>
 

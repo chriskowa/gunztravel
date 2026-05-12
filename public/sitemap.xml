@@ -2,62 +2,92 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://gunztravel.com/</loc>
+    <lastmod>2026-05-12</lastmod>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://gunztravel.com/travel-malang-juanda/</loc>
+    <lastmod>2026-05-12</lastmod>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://gunztravel.com/travel-malang-surabaya/</loc>
+    <lastmod>2026-05-12</lastmod>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://gunztravel.com/travel-juanda-malang/</loc>
+    <lastmod>2026-05-12</lastmod>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://gunztravel.com/travel-batu-juanda/</loc>
+    <lastmod>2026-05-12</lastmod>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://gunztravel.com/sewa-mobil-malang/</loc>
+    <lastmod>2026-05-12</lastmod>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://gunztravel.com/sewa-avanza-malang/</loc>
-    <priority>0.6</priority>
+    <lastmod>2026-05-12</lastmod>
+    <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://gunztravel.com/sewa-innova-reborn-malang/</loc>
-    <priority>0.6</priority>
+    <lastmod>2026-05-12</lastmod>
+    <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://gunztravel.com/sewa-alphard-vellfire-malang/</loc>
-    <priority>0.6</priority>
+    <lastmod>2026-05-12</lastmod>
+    <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://gunztravel.com/sewa-pajero-fortuner-malang/</loc>
-    <priority>0.6</priority>
+    <lastmod>2026-05-12</lastmod>
+    <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://gunztravel.com/sewa-hiace-malang/</loc>
-    <priority>0.6</priority>
+    <lastmod>2026-05-12</lastmod>
+    <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://gunztravel.com/sewa-elf-malang/</loc>
-    <priority>0.6</priority>
+    <lastmod>2026-05-12</lastmod>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://gunztravel.com/paket-wisata-bromo/</loc>
+    <lastmod>2026-05-12</lastmod>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gunztravel.com/city-tour-malang-batu/</loc>
+    <lastmod>2026-05-12</lastmod>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://gunztravel.com/wisata-religi-malang/</loc>
+    <lastmod>2026-05-12</lastmod>
+    <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
 </urlset>

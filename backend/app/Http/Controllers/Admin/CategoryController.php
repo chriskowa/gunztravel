@@ -13,7 +13,7 @@ class CategoryController extends Controller
 {
     public function index(): View
     {
-        $categories = Category::query()->orderBy('name')->paginate(50);
+        $categories = Category::query()->orderBy('name', 'asc')->paginate(50);
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -75,7 +75,7 @@ class CategoryController extends Controller
 
     public function destroy(Category $category): RedirectResponse
     {
-        $category->delete();
+        Category::destroy($category->id);
 
         return redirect()->route('admin.categories.index')->with('status', 'Kategori dihapus.');
     }
