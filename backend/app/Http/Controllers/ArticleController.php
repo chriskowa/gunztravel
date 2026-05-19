@@ -7,6 +7,8 @@ use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 
 class ArticleController extends Controller
 {
@@ -63,31 +65,72 @@ class ArticleController extends Controller
     {
         $baseUrl = rtrim(config('app.url'), '/');
 
-        $urls = [];
-        $urls[] = $baseUrl.'/artikel';
+        $staticPaths = [
+            '/',
+            '/sewa-mobil-malang/',
+            '/travel-malang-surabaya/',
+            '/travel-malang-juanda/',
+            '/travel-juanda-malang/',
+            '/travel-batu-juanda/',
+            '/sewa-avanza-malang/',
+            '/sewa-innova-reborn-malang/',
+            '/sewa-alphard-vellfire-malang/',
+            '/sewa-pajero-fortuner-malang/',
+            '/sewa-hiace-malang/',
+            '/sewa-elf-malang/',
+            '/paket-wisata-bromo/',
+            '/city-tour-malang-batu/',
+            '/wisata-religi-malang/',
+            '/blog',
+        ];
 
-        foreach (Category::query()->orderBy('id')->get(['slug']) as $category) {
-            $urls[] = $baseUrl.'/kategori/'.$category->slug;
-        }
+        $xml = Cache::remember('sitemap_xml_data', now()->addHours(6), function () use ($baseUrl, $staticPaths) {
+            $urls = [];
+            foreach ($staticPaths as $path) {
+                $url = $baseUrl . '/' . ltrim($path, '/');
+                $urls[] = [
+                    'loc' => $url,
+                    'lastmod' => null
+                ];
+            }
 
-        foreach (Tag::query()->orderBy('id')->get(['slug']) as $tag) {
-            $urls[] = $baseUrl.'/tag/'.$tag->slug;
-        }
+            try {
+                // Fetch published posts from the WordPress subdomain REST API
+                $response = Http::timeout(5)->get('https://blog.gunztravel.com/wp-json/wp/v2/posts', [
+                    '_fields' => 'slug,modified',
+                    'per_page' => 100
+                ]);
 
-        foreach ($this->publishedPosts()->orderBy('id')->get(['slug', 'updated_at']) as $post) {
-            $urls[] = $baseUrl.'/artikel/'.$post->slug;
-        }
+                if ($response->successful()) {
+                    $posts = $response->json();
+                    foreach ($posts as $post) {
+                        if (!empty($post['slug'])) {
+                            $urls[] = [
+                                'loc' => $baseUrl . '/blog/' . $post['slug'],
+                                'lastmod' => $post['modified'] ?? null
+                            ];
+                        }
+                    }
+                }
+            } catch (\Exception $e) {
+                logger()->error('Sitemap WP API fetch failed: ' . $e->getMessage());
+            }
 
-        $xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
-        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'."\n";
+            $xmlStr = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+            $xmlStr .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
-        foreach ($urls as $url) {
-            $xml .= "  <url>\n";
-            $xml .= '    <loc>'.e($url)."</loc>\n";
-            $xml .= "  </url>\n";
-        }
+            foreach ($urls as $item) {
+                $xmlStr .= "  <url>\n";
+                $xmlStr .= '    <loc>' . e($item['loc']) . "</loc>\n";
+                if (!empty($item['lastmod'])) {
+                    $xmlStr .= '    <lastmod>' . e($item['lastmod']) . "</lastmod>\n";
+                }
+                $xmlStr .= "  </url>\n";
+            }
 
-        $xml .= "</urlset>\n";
+            $xmlStr .= "</urlset>\n";
+            return $xmlStr;
+        });
 
         return response($xml, 200)->header('Content-Type', 'application/xml');
     }

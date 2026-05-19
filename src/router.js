@@ -4,6 +4,8 @@ import SewaMobilLandingPage from './pages/SewaMobilLandingPage.vue'
 import TravelLandingPage from './pages/TravelLandingPage.vue'
 import VehicleDetailPage from './pages/VehicleDetailPage.vue'
 import TourDetailPage from './pages/TourDetailPage.vue'
+import BlogLanding from './pages/BlogLanding.vue'
+import BlogPost from './pages/BlogPost.vue'
 import NotFoundPage from './pages/NotFoundPage.vue'
 
 const siteName = 'Gunz Travel'
@@ -435,6 +437,24 @@ const routes = [
     },
   },
   {
+    path: '/blog',
+    name: 'blog-landing',
+    component: BlogLanding,
+    meta: {
+      title: 'Blog & Tips Perjalanan',
+      description: 'Temukan informasi rute travel, tips perjalanan sewa mobil, dan destinasi wisata terbaru dari Gunz Travel.'
+    }
+  },
+  {
+    path: '/blog/:slug',
+    name: 'blog-post',
+    component: BlogPost,
+    meta: {
+      title: 'Artikel',
+      description: 'Baca selengkapnya di Blog Gunz Travel.'
+    }
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: NotFoundPage,
@@ -491,6 +511,14 @@ router.afterEach((to) => {
     document.head.appendChild(canonical)
   }
   canonical.setAttribute('href', baseUrl + to.path)
+
+  // Track virtual pageview on SPA transitions
+  if (typeof window.gtag === 'function') {
+    window.gtag('config', 'AW-16762703567', {
+      page_path: to.path,
+      page_title: document.title,
+    })
+  }
 })
 
 export default router

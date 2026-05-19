@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,4 +47,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::view('/{any}', 'spa')->where('any', '^(?!admin|artikel|kategori|tag|login|logout|forgot-password|reset-password|verify-email|profile).*$');
+Route::get('/blog', [BlogController::class, 'index']);
+Route::get('/blog/{slug}', [BlogController::class, 'show']);
+
+Route::view('/{any}', 'spa')->where('any', '^(?!admin|artikel|kategori|tag|blog|login|logout|forgot-password|reset-password|verify-email|profile).*$');

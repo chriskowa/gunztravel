@@ -17,7 +17,7 @@ const slides = [
   },
   {
     id: 2,
-    image: '/images/hero/bromo-mountain.png',
+    image: '/images/hero/bromo-mountain.jpg',
     alt: 'Sewa Mobil Malang untuk Wisata Bromo - Gunz Travel'
   },
   {

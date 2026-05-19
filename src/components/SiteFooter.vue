@@ -67,6 +67,7 @@ const waHref = computed(() => {
             <router-link to="/travel-juanda-malang/">Travel Juanda Malang</router-link>
             <router-link to="/travel-batu-juanda/">Travel Batu Juanda</router-link>
             <router-link to="/sewa-mobil-malang/">Sewa Mobil Malang</router-link>
+            <router-link to="/blog">Blog & Artikel</router-link>
           </nav>
         </div>
       </div>
