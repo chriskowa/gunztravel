@@ -10,19 +10,49 @@ use Illuminate\Support\Facades\Log;
 class BlogController extends Controller
 {
     /**
-     * Render the blog landing page with static SEO tags in HTML head.
+     * Render the blog landing page with static SEO tags and recent post links in HTML body for crawlers.
      */
     public function index()
     {
         $baseUrl = rtrim(config('app.url'), '/');
         
-        $seo = [
-            'title' => 'Blog & Tips Perjalanan | Gunz Travel',
-            'description' => 'Temukan informasi rute travel, tips perjalanan sewa mobil, dan destinasi wisata terbaru dari Gunz Travel.',
-            'canonical' => $baseUrl . '/blog',
-            'image' => $baseUrl . '/logo-gunz-travel.webp',
-            'og_type' => 'website'
-        ];
+        $seo = Cache::remember('seo_blog_landing', now()->addHours(6), function () use ($baseUrl) {
+            $seoData = [
+                'title' => 'Blog & Tips Perjalanan | Gunz Travel',
+                'raw_title' => 'Blog & Tips Perjalanan',
+                'description' => 'Temukan informasi rute travel, tips perjalanan sewa mobil, dan destinasi wisata terbaru dari Gunz Travel.',
+                'canonical' => $baseUrl . '/blog',
+                'image' => $baseUrl . '/logo-gunz-travel.webp',
+                'og_type' => 'website',
+                'body_content' => ''
+            ];
+
+            try {
+                // Fetch recent posts to display HTML links in source code for search engine bot discovery
+                $response = Http::timeout(3)->get("https://blog.gunztravel.com/wp-json/wp/v2/posts", [
+                    '_fields' => 'title,slug',
+                    'per_page' => 15
+                ]);
+
+                if ($response->successful()) {
+                    $posts = $response->json();
+                    $html = '<ul>';
+                    foreach ($posts as $post) {
+                        $pTitle = html_entity_decode($post['title']['rendered'] ?? '', ENT_QUOTES, 'UTF-8');
+                        $pSlug = $post['slug'] ?? '';
+                        if (!empty($pSlug)) {
+                            $html .= '<li><a href="' . $baseUrl . '/blog/' . $pSlug . '">' . e($pTitle) . '</a></li>';
+                        }
+                    }
+                    $html .= '</ul>';
+                    $seoData['body_content'] = $html;
+                }
+            } catch (\Exception $e) {
+                Log::error('Blog Landing SSR Meta fetch error: ' . $e->getMessage());
+            }
+
+            return $seoData;
+        });
 
         return view('spa', compact('seo'));
     }
@@ -94,13 +124,17 @@ class BlogController extends Controller
                         ]
                     ];
 
+                    $bodyContent = $post['content']['rendered'] ?? '';
+
                     return [
                         'title' => $title . ' | Gunz Travel',
+                        'raw_title' => $title,
                         'description' => $excerpt,
                         'canonical' => $canonical,
                         'image' => $image,
                         'og_type' => 'article',
-                        'schema' => $schema
+                        'schema' => $schema,
+                        'body_content' => $bodyContent
                     ];
                 }
             } catch (\Exception $e) {

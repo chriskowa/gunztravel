@@ -7,6 +7,7 @@ import TourDetailPage from './pages/TourDetailPage.vue'
 import BlogLanding from './pages/BlogLanding.vue'
 import BlogPost from './pages/BlogPost.vue'
 import NotFoundPage from './pages/NotFoundPage.vue'
+import ContactPage from './pages/ContactPage.vue'
 
 const siteName = 'Gunz Travel'
 
@@ -452,6 +453,15 @@ const routes = [
     meta: {
       title: 'Artikel',
       description: 'Baca selengkapnya di Blog Gunz Travel.'
+    }
+  },
+  {
+    path: '/contact/',
+    name: 'contact',
+    component: ContactPage,
+    meta: {
+      title: 'Hubungi Kami',
+      description: 'Hubungi Gunz Travel untuk pemesanan travel, sewa mobil, dan paket wisata. Layanan pelanggan 24 jam via WhatsApp.'
     }
   },
   {

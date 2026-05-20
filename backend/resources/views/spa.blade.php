@@ -55,6 +55,19 @@
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
         </noscript>
         <!-- End Google Tag Manager (noscript) -->
-        <div id="app"></div>
+        <div id="app">
+            @if(isset($seo) && !empty($seo['body_content']))
+                <!-- SSR Fallback Content (used by search engine crawlers and view-source, replaced when Vue mounts) -->
+                <div style="display: none;" aria-hidden="true">
+                    <article>
+                        <h1>{{ $seo['raw_title'] ?? $seo['title'] }}</h1>
+                        @if(!empty($seo['description']))
+                            <p><strong>Ringkasan:</strong> {{ $seo['description'] }}</p>
+                        @endif
+                        <div>{!! $seo['body_content'] !!}</div>
+                    </article>
+                </div>
+            @endif
+        </div>
     </body>
 </html>
