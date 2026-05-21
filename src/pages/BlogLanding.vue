@@ -135,8 +135,37 @@ function getFeaturedImage(post) {
   return null
 }
 
+function setJsonLd(id, data) {
+  let el = document.getElementById(id)
+  if (!el) {
+    el = document.createElement('script')
+    el.id = id
+    el.type = 'application/ld+json'
+    document.head.appendChild(el)
+  }
+  el.textContent = JSON.stringify(data)
+}
+
+function removeJsonLd(id) {
+  document.getElementById(id)?.remove()
+}
+
 onMounted(() => {
   fetchPosts()
+  
+  setJsonLd('ld-breadcrumb-blog', {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://gunztravel.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Blog & Tips Perjalanan', item: 'https://gunztravel.com/blog/' },
+    ],
+  })
+})
+
+import { onUnmounted } from 'vue'
+onUnmounted(() => {
+  removeJsonLd('ld-breadcrumb-blog')
 })
 </script>
 

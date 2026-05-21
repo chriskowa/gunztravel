@@ -1,5 +1,6 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { faBolt, faCarSide, faCircleCheck, faClock, faHeadset, faShieldHalved } from '@fortawesome/free-solid-svg-icons'
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import FleetSection from '../sections/FleetSection.vue'
@@ -54,7 +55,63 @@ const faqs = [
   { q: 'Bisa jemput di rumah atau hotel?', a: 'Bisa. Titik jemput fleksibel sesuai kesepakatan.' },
   { q: 'Bisa untuk luar kota?', a: 'Bisa. Rute luar kota menyesuaikan durasi dan kebutuhan armada.' },
   { q: 'Cara booking?', a: 'Klik WhatsApp, kirim tanggal, jam, jemput, tujuan, dan jumlah penumpang. Admin konfirmasi unit & harga.' },
+  { q: 'Cara booking?', a: 'Klik WhatsApp, kirim tanggal, jam, jemput, tujuan, dan jumlah penumpang. Admin konfirmasi unit & harga.' },
 ]
+
+/* ── SEO: JSON-LD structured data ── */
+const route = useRoute()
+const baseUrl = 'https://gunztravel.com'
+
+function setJsonLd(id, data) {
+  let el = document.getElementById(id)
+  if (!el) {
+    el = document.createElement('script')
+    el.id = id
+    el.type = 'application/ld+json'
+    document.head.appendChild(el)
+  }
+  el.textContent = JSON.stringify(data)
+}
+
+function removeJsonLd(id) {
+  document.getElementById(id)?.remove()
+}
+
+onMounted(() => {
+  setJsonLd('ld-service-sewa', {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: 'Sewa Mobil Malang',
+    name: 'Sewa Mobil Malang dengan Driver',
+    description: 'Sewa mobil Malang dengan driver. Pilih unit sesuai kebutuhan: city car, MPV, SUV, premium, hingga rombongan.',
+    provider: { '@type': 'TravelAgency', name: 'Gunz Travel' },
+    areaServed: ['Malang', 'Batu', 'Surabaya', 'Bandara Juanda'],
+  })
+
+  setJsonLd('ld-faq-sewa', {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(f => ({
+      '@type': 'Question', name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  })
+
+  setJsonLd('ld-breadcrumb-sewa', {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl + '/' },
+      { '@type': 'ListItem', position: 2, name: 'Sewa Mobil Malang', item: baseUrl + '/sewa-mobil-malang/' },
+    ],
+  })
+})
+
+onUnmounted(() => {
+  removeJsonLd('ld-service-sewa')
+  removeJsonLd('ld-faq-sewa')
+  removeJsonLd('ld-breadcrumb-sewa')
+})
 </script>
 
 <template>
@@ -155,6 +212,24 @@ const faqs = [
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="px-4 py-16 lg:px-6 lg:py-24">
+      <div class="mx-auto max-w-4xl">
+        <article class="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm lg:p-12">
+          <h2 class="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
+            Sewa Mobil Malang Murah & Berkualitas
+          </h2>
+          <div class="mt-6 space-y-4 text-sm leading-7 text-slate-600">
+            <p>
+              Mencari layanan <strong>Sewa Mobil Malang</strong> yang terpercaya? <strong>Gunz Travel</strong> menghadirkan solusi transportasi terbaik untuk Anda, keluarga, atau rombongan. Semua layanan kami sudah termasuk driver profesional, memastikan perjalanan Anda ke berbagai tujuan seperti <strong>Batu</strong>, <strong>Surabaya</strong>, maupun tujuan wisata lebih praktis.
+            </p>
+            <p>
+              Dengan unit mulai dari Avanza, Innova Reborn, Pajero, hingga unit pariwisata seperti Hiace dan Elf, layanan ini juga cocok untuk kombinasi <strong>Travel Malang Surabaya</strong> atau kebutuhan harian. Keamanan dan kenyamanan Anda adalah prioritas utama kami.
+            </p>
+          </div>
+        </article>
       </div>
     </section>
 

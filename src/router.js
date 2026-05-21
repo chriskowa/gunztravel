@@ -42,7 +42,13 @@ const routes = [
         { time: 'Malam', eta: '2–3 jam', note: 'Tersedia jika unit & driver tersedia.' },
       ],
       notes: ['Harga dan jadwal menyesuaikan tanggal, titik jemput, dan tujuan akhir.', 'Kirim detail lokasi jemput agar admin bisa estimasi lebih akurat.'],
-      heroImage: '/travel/malang-surabaya.webp',
+      heroImage: '/malang-surabaya.jpeg',
+      faqs: [
+        { q: 'Berapa harga travel Malang Surabaya?', a: 'Harga travel Malang Surabaya mulai dari Rp150.000 per orang untuk layanan reguler. Untuk carter drop menyesuaikan jenis mobil.' },
+        { q: 'Apakah travel Malang Surabaya melayani door to door?', a: 'Ya, Gunz Travel melayani antar jemput door to door dari alamat di Malang ke alamat tujuan di Surabaya.' },
+        { q: 'Bagaimana jadwal keberangkatan travel Malang Surabaya?', a: 'Jadwal travel sangat fleksibel. Tersedia keberangkatan pagi, siang, dan malam menyesuaikan kebutuhan penumpang.' },
+        { q: 'Mobil apa yang digunakan untuk travel Malang Surabaya?', a: 'Kami menggunakan armada terawat dan nyaman seperti Avanza, Innova Reborn, Hiace, dan unit lainnya sesuai dengan paket yang dipilih.' }
+      ]
     },
   },
   {
@@ -63,7 +69,13 @@ const routes = [
         { time: 'Malam', eta: '2.5–3.5 jam', note: 'By reservation, cek ketersediaan.' },
       ],
       notes: ['Mohon kirim jam landing/takeoff agar admin bisa rekomendasikan jam jemput.', 'Bisa jemput hotel/rumah/stasiun sesuai kesepakatan.'],
-      heroImage: '/travel/malang-juanda.webp',
+      heroImage: '/malang-juanda.jpeg',
+      faqs: [
+        { q: 'Berapa tarif travel Malang Juanda?', a: 'Tarif travel Malang Juanda mulai dari Rp150.000 per orang. Kami memberikan harga terbaik dengan layanan antar jemput langsung ke bandara.' },
+        { q: 'Apakah melayani travel Malang Juanda 24 jam?', a: 'Ya, Gunz Travel melayani rute travel Malang Juanda 24 jam dengan sistem by reservation (pemesanan sebelumnya).' },
+        { q: 'Berapa lama perjalanan dari Malang ke Bandara Juanda?', a: 'Estimasi perjalanan dari Malang ke Bandara Juanda adalah sekitar 2.5 hingga 3.5 jam, menyesuaikan kondisi lalu lintas dan titik penjemputan.' },
+        { q: 'Apakah bisa dijemput di Batu untuk ke Juanda?', a: 'Tentu bisa. Kami melayani penjemputan dari area Batu, Malang Kota, Kepanjen, dan sekitarnya langsung menuju Bandara Juanda.' }
+      ]
     },
   },
   {
@@ -513,6 +525,7 @@ router.afterEach((to) => {
   setMeta('name', 'twitter:card', 'summary_large_image')
   setMeta('name', 'twitter:title', fullTitle)
   setMeta('name', 'twitter:description', desc)
+  setMeta('name', 'twitter:image', baseUrl + ogImage)
 
   let canonical = document.querySelector('link[rel="canonical"]')
   if (!canonical) {

@@ -335,6 +335,50 @@ onUnmounted(() => {
       </div>
     </div>
 
+    <section class="px-4 py-16 lg:px-6 lg:py-24">
+      <div class="mx-auto max-w-4xl">
+        <article class="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm lg:p-12">
+          <h2 class="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
+            {{ title }} dengan Gunz Travel
+          </h2>
+          <div class="mt-6 space-y-4 text-sm leading-7 text-slate-600">
+            <p>
+              Merencanakan liburan yang tak terlupakan? <strong>Gunz Travel</strong> menyediakan paket wisata <strong>{{ title }}</strong> yang dirancang khusus untuk kenyamanan dan pengalaman liburan terbaik Anda. Kami siap menemani Anda menjelajahi berbagai destinasi unggulan dengan fasilitas transportasi yang aman dan nyaman.
+            </p>
+            <p>
+              Selain paket wisata, Gunz Travel juga menyediakan layanan <strong>Travel Malang Juanda</strong> dan <strong>Travel Malang Surabaya</strong> untuk kemudahan akses perjalanan Anda dari dan menuju bandara atau luar kota. Jangan ragu untuk mendiskusikan rencana perjalanan Anda bersama kami!
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="px-4 py-6 lg:px-6">
+      <div class="mx-auto max-w-4xl">
+        <p class="text-sm font-extrabold uppercase tracking-wide text-brand-700">Layanan Tour & Travel Gunz Travel</p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <router-link to="/paket-wisata-bromo/" class="rounded-full bg-brand-50 px-4 py-2 text-xs font-extrabold text-brand-800 transition hover:bg-brand-100">
+            Paket Wisata Bromo
+          </router-link>
+          <router-link to="/city-tour-malang-batu/" class="rounded-full bg-brand-50 px-4 py-2 text-xs font-extrabold text-brand-800 transition hover:bg-brand-100">
+            City Tour Malang Batu
+          </router-link>
+          <router-link to="/wisata-religi-malang/" class="rounded-full bg-brand-50 px-4 py-2 text-xs font-extrabold text-brand-800 transition hover:bg-brand-100">
+            Wisata Religi Malang
+          </router-link>
+          <router-link to="/travel-malang-juanda/" class="rounded-full bg-slate-100 px-4 py-2 text-xs font-extrabold text-slate-700 transition hover:bg-slate-200">
+            Travel Malang Juanda
+          </router-link>
+          <router-link to="/travel-malang-surabaya/" class="rounded-full bg-slate-100 px-4 py-2 text-xs font-extrabold text-slate-700 transition hover:bg-slate-200">
+            Travel Malang Surabaya
+          </router-link>
+          <router-link to="/sewa-mobil-malang/" class="rounded-full bg-slate-100 px-4 py-2 text-xs font-extrabold text-slate-700 transition hover:bg-slate-200">
+            Sewa Mobil Malang
+          </router-link>
+        </div>
+      </div>
+    </section>
+
     <StepsSection />
 
     <!-- FAQ Section -->

@@ -15,6 +15,7 @@ import {
   faVanShuttle,
 } from '@fortawesome/free-solid-svg-icons'
 import QuickBookingSection from '../sections/QuickBookingSection.vue'
+import StepsSection from '../sections/StepsSection.vue'
 
 const props = defineProps({
   title: { type: String, required: true },
@@ -26,6 +27,7 @@ const props = defineProps({
   schedule: { type: Array, required: true },
   notes: { type: Array, default: () => [] },
   heroImage: { type: String, default: '' },
+  faqs: { type: Array, default: () => [] },
 })
 
 const phone = '6281805093192'
@@ -53,24 +55,27 @@ function sendBooking(booking) {
   window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank', 'noopener')
 }
 
-const faqs = computed(() => [
-  {
-    q: 'Apakah ini travel reguler atau private?',
-    a: 'Bisa keduanya. Untuk reguler menyesuaikan jadwal dan ketersediaan seat. Untuk private (charter) bisa lebih fleksibel.',
-  },
-  {
-    q: 'Jemputnya di mana?',
-    a: 'Jemput bisa di rumah, hotel, stasiun, terminal, atau titik lain sesuai kesepakatan dan rute.',
-  },
-  {
-    q: 'Bagasi boleh bawa berapa?',
-    a: 'Menyesuaikan unit dan jumlah penumpang. Chat admin untuk konfirmasi bagasi (koper, box, dll).',
-  },
-  {
-    q: 'Cara booking?',
-    a: 'Klik tombol WhatsApp, kirim tanggal, jam, titik jemput, tujuan, dan jumlah penumpang. Admin akan konfirmasi ketersediaan & harga.',
-  },
-])
+const faqs = computed(() => {
+  if (props.faqs && props.faqs.length > 0) return props.faqs
+  return [
+    {
+      q: 'Apakah ini travel reguler atau private?',
+      a: 'Bisa keduanya. Untuk reguler menyesuaikan jadwal dan ketersediaan seat. Untuk private (charter) bisa lebih fleksibel.',
+    },
+    {
+      q: 'Jemputnya di mana?',
+      a: 'Jemput bisa di rumah, hotel, stasiun, terminal, atau titik lain sesuai kesepakatan dan rute.',
+    },
+    {
+      q: 'Bagasi boleh bawa berapa?',
+      a: 'Menyesuaikan unit dan jumlah penumpang. Chat admin untuk konfirmasi bagasi (koper, box, dll).',
+    },
+    {
+      q: 'Cara booking?',
+      a: 'Klik tombol WhatsApp, kirim tanggal, jam, titik jemput, tujuan, dan jumlah penumpang. Admin akan konfirmasi ketersediaan & harga.',
+    },
+  ]
+})
 
 /* ── SEO: JSON-LD structured data ── */
 const route = useRoute()
@@ -223,23 +228,26 @@ onUnmounted(() => {
           </div>
         </div>
 
-        <div class="relative">
+        <div class="relative flex items-center justify-center">
           <div class="absolute -right-12 -top-10 h-56 w-56 rounded-full bg-brand-100 blur-3xl"></div>
           <div class="absolute -bottom-10 -left-10 h-52 w-52 rounded-full bg-amber-100 blur-3xl"></div>
-          <div class="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-4 shadow-soft">
-            <div class="overflow-hidden rounded-[1.5rem] bg-slate-50">
-              <img
-                v-if="showHeroImage"
-                :src="$asset(heroImage)"
-                :alt="`Armada ${title} - Gunz Travel Malang`"
-                class="h-[440px] w-full object-cover"
-                width="640"
-                height="440"
-                loading="eager"
-                decoding="async"
-                @error="heroImageOk = false"
-              />
-              <div v-else class="flex h-[440px] items-center justify-center bg-gradient-to-br from-white via-brand-50 to-amber-50">
+          
+          <!-- Full-view Image wrapper (no card style) -->
+          <div v-if="showHeroImage" class="relative w-full overflow-hidden rounded-[2rem] shadow-lg transition-all duration-300 hover:scale-[1.01]">
+            <img
+              :src="$asset(heroImage)"
+              :alt="`Armada ${title} - Gunz Travel Malang`"
+              class="w-full h-auto object-contain block"
+              loading="eager"
+              decoding="async"
+              @error="heroImageOk = false"
+            />
+          </div>
+
+          <!-- Fallback Card wrapper -->
+          <div v-else class="relative w-full overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-4 shadow-soft">
+            <div class="overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-white via-brand-50 to-amber-50">
+              <div class="flex h-[440px] items-center justify-center">
                 <div class="text-center">
                   <div class="mx-auto inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-white text-3xl text-brand-700 ring-1 ring-slate-200">
                     <font-awesome-icon :icon="faVanShuttle" />
@@ -313,6 +321,49 @@ onUnmounted(() => {
           >
             <span class="mr-2 text-brand-700">•</span>{{ n }}
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-4 py-16 lg:px-6 lg:py-24">
+      <div class="mx-auto max-w-4xl">
+        <article class="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm lg:p-12">
+          <h2 class="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
+            {{ title }} – Layanan Door to Door Terpercaya
+          </h2>
+          <div class="mt-6 space-y-4 text-sm leading-7 text-slate-600">
+            <p>
+              Mencari layanan travel yang terpercaya? <strong>Gunz Travel</strong> menyediakan layanan <strong>{{ title }}</strong>
+              dengan sistem door to door. Kami siap menjemput Anda di
+              <strong>{{ pickupAreas.join(', ') }}</strong> dan mengantar langsung ke tujuan di <strong>{{ dropAreas.join(', ') }}</strong>.
+            </p>
+            <p>
+              Layanan kami mencakup <strong>Travel Malang Juanda</strong> 24 jam serta rute <strong>Travel Malang Surabaya</strong> yang dirancang untuk kenyamanan ekstra. Dengan harga mulai <strong>{{ priceFrom }}</strong>, layanan ini sangat cocok untuk perjalanan dinas, keluarga, airport transfer, maupun kebutuhan harian lainnya. Bersama driver berpengalaman, kami pastikan setiap rute perjalanan ditempuh dengan aman dan nyaman.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="px-4 py-6 lg:px-6">
+      <div class="mx-auto max-w-4xl">
+        <p class="text-sm font-extrabold uppercase tracking-wide text-brand-700">Rute & Layanan Lainnya</p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <router-link to="/travel-malang-juanda/" class="rounded-full bg-brand-50 px-4 py-2 text-xs font-extrabold text-brand-800 transition hover:bg-brand-100">
+            Travel Malang Juanda
+          </router-link>
+          <router-link to="/travel-malang-surabaya/" class="rounded-full bg-brand-50 px-4 py-2 text-xs font-extrabold text-brand-800 transition hover:bg-brand-100">
+            Travel Malang Surabaya
+          </router-link>
+          <router-link to="/travel-juanda-malang/" class="rounded-full bg-brand-50 px-4 py-2 text-xs font-extrabold text-brand-800 transition hover:bg-brand-100">
+            Travel Juanda Malang
+          </router-link>
+          <router-link to="/travel-batu-juanda/" class="rounded-full bg-brand-50 px-4 py-2 text-xs font-extrabold text-brand-800 transition hover:bg-brand-100">
+            Travel Batu Juanda
+          </router-link>
+          <router-link to="/sewa-mobil-malang/" class="rounded-full bg-slate-100 px-4 py-2 text-xs font-extrabold text-slate-700 transition hover:bg-slate-200">
+            Sewa Mobil Malang
+          </router-link>
         </div>
       </div>
     </section>

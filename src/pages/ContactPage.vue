@@ -9,6 +9,41 @@ const waHref = computed(() => {
   const text = 'Halo Gunz Travel, saya ingin bertanya tentang layanan travel atau sewa mobil.'
   return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`
 })
+
+import { onMounted, onUnmounted } from 'vue'
+
+function setJsonLd(id, data) {
+  let el = document.getElementById(id)
+  if (!el) {
+    el = document.createElement('script')
+    el.id = id
+    el.type = 'application/ld+json'
+    document.head.appendChild(el)
+  }
+  el.textContent = JSON.stringify(data)
+}
+
+function removeJsonLd(id) {
+  document.getElementById(id)?.remove()
+}
+
+onMounted(() => {
+  setJsonLd('ld-contact', {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    mainEntity: {
+      '@type': 'ContactPoint',
+      telephone: '+6281805093192',
+      contactType: 'customer service',
+      areaServed: 'ID',
+      availableLanguage: ['Indonesian', 'English']
+    }
+  })
+})
+
+onUnmounted(() => {
+  removeJsonLd('ld-contact')
+})
 </script>
 
 <template>
@@ -16,10 +51,13 @@ const waHref = computed(() => {
     <section class="px-4 py-16 lg:px-6 lg:py-24 bg-slate-50 min-h-[60vh] flex flex-col justify-center">
       <div class="mx-auto max-w-4xl text-center">
         <h1 class="text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">
-          Hubungi Kami
+          Hubungi Gunz Travel
         </h1>
+        <h2 class="mt-4 text-xl font-bold text-slate-800">
+          Pusat Informasi Travel Malang Juanda & Surabaya
+        </h2>
         <p class="mt-4 text-lg text-slate-600">
-          Punya pertanyaan seputar layanan Gunz Travel? Jangan ragu untuk menghubungi kami melalui kontak di bawah ini.
+          Punya pertanyaan seputar layanan <strong>Gunz Travel</strong>, pemesanan <strong>Travel Malang Juanda</strong>, <strong>Travel Malang Surabaya</strong>, sewa mobil, atau paket wisata? Jangan ragu untuk menghubungi kami melalui kontak di bawah ini. Tim kami siap melayani Anda 24 jam.
         </p>
       </div>
 
