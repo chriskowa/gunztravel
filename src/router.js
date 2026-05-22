@@ -542,6 +542,11 @@ router.afterEach((to) => {
       page_title: document.title,
     })
   }
+
+  // Signal that prerendering can capture the page
+  setTimeout(() => {
+    document.dispatchEvent(new Event('x-app-rendered'))
+  }, 150)
 })
 
 export default router
